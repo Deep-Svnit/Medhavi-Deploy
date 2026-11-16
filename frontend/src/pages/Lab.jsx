@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Upload, Play, Download, BarChart3, ImageIcon, RefreshCw } from 'lucide-react'
 import axios from 'axios'
+import { API_BASE_URL } from '../config'
 
 // Cute inline phytoplankton mascot (simple SVG)
 const PlanktonMascot = ({ className = '' }) => (
@@ -72,8 +73,7 @@ const Lab = () => {
     try {
       const fd = new FormData()
       fd.append('image', imageFile)
-      const apiBase = (import.meta.env.VITE_BACKEND_URL || 'https://medhavi-deploy.onrender.com').replace(/\/$/, '')
-      const response = await axios.post(`${apiBase}/api/analyze`, fd, {
+      const response = await axios.post(`${API_BASE_URL}/api/analyze`, fd, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       const data = response.data || {}

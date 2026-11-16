@@ -17,17 +17,9 @@ React-based frontend for the Embedded Intelligent Microscopy System for Marine O
 npm install
 ```
 
-2. Create environment file:
-
-```bash
-cp .env.example .env
-```
-
-3. Update environment variables in `.env`:
-
-```
-BACKEND_URL=http://localhost:5000
-```
+2. The deployed API URL is configured in `src/config.js`. For local
+development, temporarily set `API_BASE_URL` there to `http://localhost:5000`.
+No Vercel environment variable is required.
 
 ### Development
 

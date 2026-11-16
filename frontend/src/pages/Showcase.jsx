@@ -20,6 +20,7 @@ import {
   ArrowUpRight
 } from 'lucide-react'
 import axios from 'axios'
+import { API_BASE_URL } from '../config'
 import UserStats from '../components/UserStats'
 
 function TeamMemberCard({ member }) {
@@ -101,8 +102,8 @@ const Showcase = () => {
     const fetchData = async () => {
       try {
         const [modelsRes, downloadsRes] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_BACKEND_URL || 'https://medhavi-deploy.onrender.com'}/api/models`),
-          axios.get(`${import.meta.env.VITE_BACKEND_URL || 'https://medhavi-deploy.onrender.com'}/api/downloads`)
+          axios.get(`${API_BASE_URL}/api/models`),
+          axios.get(`${API_BASE_URL}/api/downloads`)
         ])
         const normalizeArray = (payload) => {
           if (Array.isArray(payload)) return payload

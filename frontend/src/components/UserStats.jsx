@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Users, TrendingUp, Clock } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 const UserStats = () => {
   const [stats, setStats] = useState({
@@ -12,7 +13,7 @@ const UserStats = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL || 'https://medhavi-deploy.onrender.com'}/api/users/analytics`);
+        const response = await axios.get(`${API_BASE_URL}/api/users/analytics`);
         setStats({
           totalUsers: response.data.totalUsers,
           todayUsers: response.data.todayUsers,
