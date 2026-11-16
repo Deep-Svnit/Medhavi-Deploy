@@ -12,6 +12,7 @@ import { tryOnnxInference } from './inference/onnx_inference.js'
 //  - CORS_ORIGINS: comma separated list of allowed origins
 //  - PIPELINE_PATH: optional path to the serialized Python pipeline
 //  - PYTHON_BIN: Python executable used for inference
+//  - INFERENCE_RUNTIME: onnx (default, low-memory) or python
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url)
@@ -292,8 +293,14 @@ app.post('/api/analyze', upload.single('image'), async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: 'Image file is required (field name: image)' })
     }
-    const result = await runPythonPipeline(req.file.path)
-    return res.json({ ...result, runtime: 'python-pipeline' })
+    const usePython = process.env.INFERENCE_RUNTIME === 'python'
+    const result = usePython
+      ? await runPythonPipeline(req.file.path)
+      : await tryOnnxInference(req.file.path)
+    if (!result.success) {
+      return res.status(500).json({ error: 'Model inference failed', details: result.error })
+    }
+    return res.json({ ...result, runtime: usePython ? 'python-pipeline' : 'onnx-node' })
   } catch (err) {
     console.error('Analyze route error:', err)
     res.status(500).json({ error: 'Server error during analysis' })
@@ -330,7 +337,8 @@ app.get('/api/health', (req, res) => {
     status: 'healthy', 
     timestamp: new Date().toISOString(),
     demoMode: false,
-    pipelineConfigured: fs.existsSync(process.env.PIPELINE_PATH || path.join(__dirname, 'models', 'phytoplankton_full_pipeline.pkl'))
+    pipelineConfigured: fs.existsSync(path.join(__dirname, 'models', 'phytoplankton_full_pipeline.onnx')),
+    runtime: process.env.INFERENCE_RUNTIME === 'python' ? 'python-pipeline' : 'onnx-node'
   })
 })
 

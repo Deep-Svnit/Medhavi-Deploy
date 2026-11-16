@@ -14,17 +14,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
+          node-version: 20
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
 
-      - name: Install model dependencies
-        run: pip install -r requirements.txt
+      - name: Install backend dependencies
+        run: npm ci
 
-      - name: Run inference against bundled sample
-        run: |
-          python inference/run_pipeline.py \
-            --pipeline models/phytoplankton_full_pipeline.pkl \
-            --image storage/uploads/image-1758187869194-607778446.jpg \
-            --topk 5
+      - name: Run ONNX inference against bundled sample
+        run: node --input-type=module -e "import {tryOnnxInference} from './inference/onnx_inference.js'; const r=await tryOnnxInference('storage/uploads/image-1758187869194-607778446.jpg'); if (!r.success) { console.error(r); process.exit(1) }; console.log(r.top.slice(0, 5))"

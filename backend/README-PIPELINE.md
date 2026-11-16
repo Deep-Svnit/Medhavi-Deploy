@@ -1,6 +1,6 @@
 # Phytoplankton Full Pipeline Inference
 
-This backend supports running a unified phytoplankton analysis pipeline stored as a single pickle file `phytoplankton_full_pipeline.pkl`.
+This backend supports the unified phytoplankton model through the bundled ONNX artifact. ONNX is the default runtime because it keeps Render's memory usage low and does not require installing PyTorch. The original Python pickle runtime remains available for local use with `INFERENCE_RUNTIME=python`.
 
 ## Directory
 Place the pickle at:
@@ -33,11 +33,13 @@ Response JSON (success):
 |----------|---------|---------|
 | `PIPELINE_PATH` | Path to full pipeline pickle | `backend/models/phytoplankton_full_pipeline.pkl` |
 | `PYTHON_BIN` | Python executable used for inference | `python` |
+| `INFERENCE_RUNTIME` | `onnx` (default) or `python` | `onnx` |
 | `ENABLE_DEMO_MODE` | If `true`, legacy `/api/predict` returns mock data | `false` |
 
 ## Implementation Notes
 - Inference script: `backend/inference/run_pipeline.py`
-- Invoked via child process: `python run_pipeline.py --pipeline <pkl> --image <file>`
+- Default runtime: Node `onnxruntime-node` loads `backend/models/phytoplankton_full_pipeline.onnx`.
+- Optional Python runtime: `python run_pipeline.py --pipeline <pkl> --image <file>`.
 - Returns single-line JSON printed to stdout.
 
 ## Troubleshooting

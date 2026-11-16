@@ -3,7 +3,7 @@ services:
     name: medhavi-ai-backend
     runtime: node
     rootDir: backend
-    buildCommand: npm ci && pip install -r requirements.txt
+    buildCommand: npm ci
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
@@ -11,6 +11,8 @@ services:
         value: production
       - key: ENABLE_DEMO_MODE
         value: "false"
+      - key: INFERENCE_RUNTIME
+        value: onnx
       - key: PIPELINE_PATH
         value: ./models/phytoplankton_full_pipeline.pkl
       - key: CORS_ORIGINS
