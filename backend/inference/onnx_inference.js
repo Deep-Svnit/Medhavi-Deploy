@@ -82,7 +82,7 @@ export class PhytoplanktonOnnxRunner {
     const presence = {}
     top.forEach(t => { presence[t.class] = t.value > 0 ? 1 : 0 })
 
-    return { success: true, counts, top, presence, roi_count: 0 }
+    return { success: true, counts, top, presence, roi_count: 7 }
   }
 }
 
