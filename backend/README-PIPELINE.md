@@ -44,14 +44,14 @@ Response JSON (success):
 
 ## Troubleshooting
 1. `Pipeline pickle not found` → verify file path or set `PIPELINE_PATH`.
-2. `Inference failed` with Python traceback → ensure required Python packages (torch, torchvision, Pillow, numpy, sklearn) are installed in the environment referenced by `PYTHON_BIN`.
+2. Python runtime failures only apply when `INFERENCE_RUNTIME=python`; install the optional packages from `requirements-python.txt`.
 3. Empty / corrupted base64 image → processed image not available in pipeline output; run without `--return-image`.
 
 ## Suggested Python Environment Setup
 ```bash
 python -m venv venv
 venv/Scripts/activate
-pip install torch torchvision pillow numpy scikit-learn
+pip install -r requirements-python.txt
 ```
 Then start backend with:
 ```bash
