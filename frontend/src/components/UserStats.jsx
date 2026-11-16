@@ -12,7 +12,7 @@ const UserStats = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.BACKEND_URL}/api/users/analytics`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL || 'https://medhavi-deploy.onrender.com'}/api/users/analytics`);
         setStats({
           totalUsers: response.data.totalUsers,
           todayUsers: response.data.todayUsers,

@@ -58,7 +58,7 @@ const useSilentTracking = () => {
       const userInfo = generateUserFingerprint();
       
       // Send to backend
-      await axios.post(`${import.meta.env.BACKEND_URL}/api/users/track`, userInfo);
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL || 'https://medhavi-deploy.onrender.com'}/api/users/track`, userInfo);
       
       // Store in localStorage for session persistence
       localStorage.setItem('userSession', JSON.stringify({

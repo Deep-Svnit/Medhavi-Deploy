@@ -101,8 +101,8 @@ const Showcase = () => {
     const fetchData = async () => {
       try {
         const [modelsRes, downloadsRes] = await Promise.all([
-          axios.get(`${import.meta.env.BACKEND_URL}/api/models`),
-          axios.get(`${import.meta.env.BACKEND_URL}/api/downloads`)
+          axios.get(`${import.meta.env.VITE_BACKEND_URL || 'https://medhavi-deploy.onrender.com'}/api/models`),
+          axios.get(`${import.meta.env.VITE_BACKEND_URL || 'https://medhavi-deploy.onrender.com'}/api/downloads`)
         ])
         const normalizeArray = (payload) => {
           if (Array.isArray(payload)) return payload

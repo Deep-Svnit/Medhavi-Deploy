@@ -72,7 +72,7 @@ const Lab = () => {
     try {
       const fd = new FormData()
       fd.append('image', imageFile)
-      const apiBase = (import.meta.env.BACKEND_URL || '').replace(/\/$/, '')
+      const apiBase = (import.meta.env.VITE_BACKEND_URL || 'https://medhavi-deploy.onrender.com').replace(/\/$/, '')
       const response = await axios.post(`${apiBase}/api/analyze`, fd, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
